@@ -63,7 +63,7 @@ window.refreshColor = function() {
 window.refreshCaptcha = function() {
     currentCaptcha = generateCaptcha();
     
-    const ruleIndex = 10; // ID 11
+    const ruleIndex = 11; // ID 12
     rules[ruleIndex].text = `A sua palavra-passe deve incluir este CAPTCHA: <strong>${currentCaptcha}</strong> <button class="refresh-btn" onclick="refreshCaptcha()">🔄</button>`;
     
     const ruleEl = document.getElementById(`rule-${ruleIndex}`);
