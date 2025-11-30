@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natal 2025 - Desbloqueio de Presentes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        
+        <!-- Ecrã de Login -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <h1>Bem-vindo ao Portal de Natal</h1>
+                <p>Por favor, inicie sessão para aceder aos seus presentes.</p>
+                <form id="login-form">
+                    <input type="text" placeholder="Utilizador" disabled value="">
+                    <input type="password" placeholder="Palavra-passe">
+                    <button type="button" id="btn-login-attempt">Entrar</button>
+                </form>
+                <p class="hint">Não tem conta? <a href="#" id="link-create-account">Criar conta</a></p>
+            </div>
+        </div>
+
+        <!-- Ecrã de Criação de Conta (O Jogo) -->
+        <div id="register-screen" class="screen">
+            <div class="register-container">
+                <h2>Criar Conta</h2>
+                <p>Escolha uma palavra-passe segura.</p>
+                
+                <div class="password-field">
+                    <input type="text" id="password-input" placeholder="Digite a sua palavra-passe..." autocomplete="off">
+                    <span id="char-count">0</span>
+                </div>
+
+                <div id="rules-container">
+                    <!-- Regras serão injetadas aqui pelo JS -->
+                </div>
+
+                <button id="btn-register" disabled>Criar Conta</button>
+            </div>
+        </div>
+
+        <!-- Ecrã Principal (Dashboard dos Presentes) -->
+        <div id="dashboard-screen" class="screen">
+            <header>
+                <h2>Os Meus Presentes</h2>
+                <button id="btn-logout">Sair</button>
+            </header>
+            
+            <div class="gifts-container">
+                <!-- Presente 1 -->
+                <div class="gift-card" id="gift-1">
+                    <div class="gift-icon">🎁</div>
+                    <h3>Presente #1</h3>
+                    <p class="status">Trancado</p>
+                    <div class="unlock-area">
+                        <input type="text" class="code-input" placeholder="Código de 5 dígitos" maxlength="5">
+                        <button class="btn-unlock" data-id="1">Destrancar</button>
+                    </div>
+                    <div class="lock-code hidden">
+                        <p>Código do Aluquete:</p>
+                        <span class="big-code">---</span>
+                    </div>
+                </div>
+
+                <!-- Presente 2 -->
+                <div class="gift-card" id="gift-2">
+                    <div class="gift-icon">🎁</div>
+                    <h3>Presente #2</h3>
+                    <p class="status">Trancado</p>
+                    <div class="unlock-area">
+                        <input type="text" class="code-input" placeholder="Código de 5 dígitos" maxlength="5">
+                        <button class="btn-unlock" data-id="2">Destrancar</button>
+                    </div>
+                    <div class="lock-code hidden">
+                        <p>Código do Aluquete:</p>
+                        <span class="big-code">---</span>
+                    </div>
+                </div>
+
+                <!-- Presente 3 -->
+                <div class="gift-card" id="gift-3">
+                    <div class="gift-icon">🎁</div>
+                    <h3>Presente #3</h3>
+                    <p class="status">Trancado</p>
+                    <div class="unlock-area">
+                        <input type="text" class="code-input" placeholder="Código de 5 dígitos" maxlength="5">
+                        <button class="btn-unlock" data-id="3">Destrancar</button>
+                    </div>
+                    <div class="lock-code hidden">
+                        <p>Código do Aluquete:</p>
+                        <span class="big-code">---</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
