@@ -327,15 +327,13 @@ function validateRules(pwd) {
     let changed = false;
 
     // 1. Nascer (Hatching)
-    // Se a regra 16 (índice 15) passou (tem ovo ou evolução) E a regra 17 (índice 16) está prestes a ser mostrada ou já está
-    // Simplificação: Se tem ovo E todas as regras anteriores passaram (ou seja, chegámos aqui)
-    // Mas cuidado para não substituir enquanto o utilizador ainda está a resolver regras anteriores.
-    // Vamos verificar se as regras até à 15 (índice 14) passaram.
+    // O Pipo nasce quando todas as regras anteriores à regra de alimentação (Regra 17) forem cumpridas.
+    // Ou seja, as regras 1 a 16 devem estar válidas.
     
-    const rulesBeforeEgg = rules.slice(0, 15);
-    const canHatch = rulesBeforeEgg.every(r => r.validator(pwd));
+    const rulesBeforeBirth = rules.slice(0, 16); // Índices 0 a 15 (Regras 1 a 16)
+    const readyToHatch = rulesBeforeBirth.every(r => r.validator(pwd));
 
-    if (canHatch && pwd.includes("🥚")) {
+    if (readyToHatch && pwd.includes("🥚")) {
         newPwd = pwd.replace(/🥚/g, "🐣");
         changed = true;
     }
