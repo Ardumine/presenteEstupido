@@ -39,7 +39,7 @@ function getRandomColor() {
 function generateCaptcha() {
     const chars = "ABEFGHJKNPQRSTUW";
     let result = "";
-    for(let i=0; i<5; i++) {
+    for (let i = 0; i < 5; i++) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     return result;
@@ -47,11 +47,11 @@ function generateCaptcha() {
 
 // --- Funções de Refresh ---
 
-window.refreshColor = function() {
+window.refreshColor = function () {
     targetColor = getRandomColor();
     const ruleIndex = 9; // ID 10
     rules[ruleIndex].text = `A sua palavra-passe deve incluir esta cor em hexadecimal: ${targetColor.emoji} ${targetColor.name} (no formato #[6 digitos]) <button class="refresh-btn" onclick="refreshColor()">🔄</button>`;
-    
+
     const ruleEl = document.getElementById(`rule-${ruleIndex}`);
     if (ruleEl) {
         ruleEl.querySelector('.rule-desc').innerHTML = rules[ruleIndex].text;
@@ -60,12 +60,12 @@ window.refreshColor = function() {
     }
 };
 
-window.refreshCaptcha = function() {
+window.refreshCaptcha = function () {
     currentCaptcha = generateCaptcha();
-    
+
     const ruleIndex = 11; // ID 12
     rules[ruleIndex].text = `A sua palavra-passe deve incluir este CAPTCHA: <strong>${currentCaptcha}</strong> <button class="refresh-btn" onclick="refreshCaptcha()">🔄</button>`;
-    
+
     const ruleEl = document.getElementById(`rule-${ruleIndex}`);
     if (ruleEl) {
         ruleEl.querySelector('.rule-desc').innerHTML = rules[ruleIndex].text;
@@ -168,7 +168,7 @@ function initGameData() {
             text: `A sua palavra-passe deve incluir esta cor em hexadecimal: ${targetColor.emoji} ${targetColor.name} (no formato #[6 digitos]) <button class="refresh-btn" onclick="refreshColor()">🔄</button>`,
             validator: (pwd) => pwd.toLowerCase().includes(targetColor.hex.toLowerCase())
         },
-         {
+        {
             id: 11,
             text: "🥚 Este é o meu frango Pipo. Ele ainda não nasceu. Por favor, coloque-o na sua palavra-passe e mantenha-o em segurança.",
             validator: (pwd) => pwd.includes("🥚") || pwd.includes("🐣") || pwd.includes("🐥")
@@ -199,8 +199,20 @@ function initGameData() {
                 return affirmations.some(aff => pwd.toLowerCase().includes(aff.toLowerCase()));
             }
         },
+
+
         {
             id: 16,
+            text: "O Pipo nasceu! 🐣 Ele tem fome. Dê-lhe de comer uma espiga 🌾.",
+            validator: (pwd) => (pwd.includes("🐣") && pwd.includes("🌾")) || pwd.includes("🐥")
+        },
+        {
+            id: 17,
+            text: `A sua palavra-passe deve incluir a solução (por extenso) para o zero desta função: <img src="equation.svg" class="equation-img">`,
+            validator: (pwd) => pwd.toLowerCase().includes("sete")
+        },
+        {
+            id: 18,
             text: "O comprimento da sua palavra-passe deve ser um número primo.",
             validator: (pwd) => {
                 const n = pwd.length;
@@ -213,17 +225,6 @@ function initGameData() {
                 return true;
             }
         },
-       
-        {
-            id: 17,
-            text: "O Pipo nasceu! 🐣 Ele tem fome. Dê-lhe de comer uma espiga 🌾.",
-            validator: (pwd) => (pwd.includes("🐣") && pwd.includes("🌾")) || pwd.includes("🐥")
-        },
-        {
-            id: 18,
-            text: `A sua palavra-passe deve incluir a solução (por extenso) para o zero desta função: <img src="equation.svg" class="equation-img">`,
-            validator: (pwd) => pwd.toLowerCase().includes("sete")
-        }
     ];
 }
 
@@ -321,7 +322,7 @@ function updateRuleStatus(ruleEl, passed) {
     }
 }
 
-function validateRules(pwd) {
+function validateRule17s(pwd) {
     // --- Lógica de Evolução do Pipo ---
     let newPwd = pwd;
     let changed = false;
@@ -329,7 +330,7 @@ function validateRules(pwd) {
     // 1. Nascer (Hatching)
     // O Pipo nasce quando todas as regras anteriores à regra de alimentação (Regra 17) forem cumpridas.
     // Ou seja, as regras 1 a 16 devem estar válidas.
-    
+
     const rulesBeforeBirth = rules.slice(0, 16); // Índices 0 a 15 (Regras 1 a 16)
     const readyToHatch = rulesBeforeBirth.every(r => r.validator(pwd));
 
@@ -355,15 +356,15 @@ function validateRules(pwd) {
     }
 
     let allPassed = true;
-    
+
     // Iterar sobre as regras para determinar quais mostrar e validar
     for (let i = 0; i < rules.length; i++) {
         const rule = rules[i];
         const passed = rule.validator(pwd);
-        
+
         // Verificar se a regra já está visível
         let ruleEl = document.getElementById(`rule-${i}`);
-        
+
         if (ruleEl) {
             // Se já está visível, atualizamos o estado
             updateRuleStatus(ruleEl, passed);
@@ -372,9 +373,9 @@ function validateRules(pwd) {
             // Se não está visível, verificamos se devemos mostrar
             // Só mostramos a regra N se a regra N-1 estiver visível E tiver passado
             // A regra 0 é sempre mostrada (tratada no renderRules inicial)
-            
+
             if (i > 0) {
-                const prevRuleEl = document.getElementById(`rule-${i-1}`);
+                const prevRuleEl = document.getElementById(`rule-${i - 1}`);
                 // Se a anterior existe e passou, mostramos esta
                 if (prevRuleEl && prevRuleEl.classList.contains('passed')) {
                     addRuleToUI(rule, i);
@@ -401,7 +402,7 @@ function validateRules(pwd) {
     // E se a última regra já tiver sido revelada (para garantir que o jogo chegou ao fim)
     const allRulesValid = rules.every(r => r.validator(pwd));
     const lastRuleVisible = document.getElementById(`rule-${rules.length - 1}`) !== null;
-    
+
     document.getElementById('btn-register').disabled = !(allRulesValid && lastRuleVisible);
 }
 
@@ -414,7 +415,7 @@ function setupDashboard() {
             const container = document.getElementById(`gift-${id}`);
             const input = container.querySelector('.code-input');
             const code = input.value.trim();
-            
+
             if (GIFTS[id] && code === GIFTS[id].unlockCode) {
                 // Sucesso
                 container.querySelector('.status').textContent = "Desbloqueado!";
