@@ -127,35 +127,28 @@ function initGameData() {
         },
         {
             id: 8,
-            text: "Os numerais romanos da sua senha devem multiplicar 35.",
+            text: "Os numerais romanos da sua senha devem somar 35.",
             validator: (pwd) => {
                 const romanValues = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
-                const matches = pwd.match(/[IVXLCDM]+/gi);
+                // Encontrar sequências de caracteres romanos
+                const matches = pwd.match(/[IVXLCDM]+/g);
                 if (!matches) return false;
 
-                let product = 1;
-                let foundAny = false;
+                let sum = 0;
 
                 for (const match of matches) {
-                    const upper = match.toUpperCase();
-                    if (/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/.test(upper)) {
-                        let val = 0;
-                        for (let i = 0; i < upper.length; i++) {
-                            const current = romanValues[upper[i]];
-                            const next = romanValues[upper[i + 1]];
-                            if (next && current < next) {
-                                val -= current;
-                            } else {
-                                val += current;
-                            }
-                        }
-                        if (val > 0) {
-                            product *= val;
-                            foundAny = true;
+                    // Calcular valor do numeral romano
+                    for (let i = 0; i < match.length; i++) {
+                        const current = romanValues[match[i]];
+                        const next = romanValues[match[i + 1]];
+                        if (next && current < next) {
+                            sum -= current;
+                        } else {
+                            sum += current;
                         }
                     }
                 }
-                return foundAny && product === 35;
+                return sum === 35;
             }
         },
         {
