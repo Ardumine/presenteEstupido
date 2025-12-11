@@ -322,7 +322,7 @@ function updateRuleStatus(ruleEl, passed) {
     }
 }
 
-function validateRule17s(pwd) {
+function validateRules(pwd) {
     // --- Lógica de Evolução do Pipo ---
     let newPwd = pwd;
     let changed = false;
