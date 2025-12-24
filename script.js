@@ -1,7 +1,7 @@
 // --- Configuração e Dados ---
 
 const GIFTS = {
-    1: { unlockCode: "6112", lockCombo: "211" }, // Exemplo
+    1: { unlockCode: "61312", lockCombo: "211" }, // Exemplo
 };
 
 const PERIODIC_TABLE = [
