@@ -1,9 +1,7 @@
 // --- Configuração e Dados ---
 
 const GIFTS = {
-    1: { unlockCode: "12345", lockCombo: "482" }, // Exemplo
-    2: { unlockCode: "67890", lockCombo: "195" },
-    3: { unlockCode: "54321", lockCombo: "736" }
+    1: { unlockCode: "6112", lockCombo: "211" }, // Exemplo
 };
 
 const PERIODIC_TABLE = [
@@ -320,22 +318,28 @@ function validateRules(pwd) {
     let newPwd = pwd;
     let changed = false;
 
+    // 0. Substituir "pipo" (texto) pelo emoji do ovo 🥚
+    if (/pipo/i.test(newPwd) && !newPwd.includes("🥚") && !newPwd.includes("🐣") && !newPwd.includes("🐥")) {
+        newPwd = newPwd.replace(/pipo/gi, "🥚");
+        changed = true;
+    }
+
     // 1. Nascer (Hatching)
     // O Pipo nasce quando todas as regras anteriores à regra de alimentação (Regra 17) forem cumpridas.
     // Ou seja, as regras 1 a 16 devem estar válidas.
 
-    const rulesBeforeBirth = rules.slice(0, 16); // Índices 0 a 15 (Regras 1 a 16)
-    const readyToHatch = rulesBeforeBirth.every(r => r.validator(pwd));
+    const rulesBeforeBirth = rules.slice(0, 15); // Índices 0 a 15 (Regras 1 a 16)
+    const readyToHatch = rulesBeforeBirth.every(r => r.validator(newPwd));
 
-    if (readyToHatch && pwd.includes("🥚")) {
-        newPwd = pwd.replace(/🥚/g, "🐣");
+    if (readyToHatch && newPwd.includes("🥚")) {
+        newPwd = newPwd.replace(/🥚/g, "🐣");
         changed = true;
     }
 
     // 2. Comer (Feeding)
     // Se tem pinto E espiga -> vira frango (e remove espiga)
-    if (pwd.includes("🐣") && pwd.includes("🌾")) {
-        newPwd = pwd.replace(/🐣/g, "🐥").replace(/🌾/g, "");
+    if (newPwd.includes("🐣") && newPwd.includes("🌾")) {
+        newPwd = newPwd.replace(/🐣/g, "🐥").replace(/🌾/g, "");
         changed = true;
     }
 
